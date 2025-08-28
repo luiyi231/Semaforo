@@ -14,7 +14,9 @@ import androidx.core.view.WindowInsetsCompat;
 public class MainActivity extends AppCompatActivity {
 
     private ImageView semaforo;
+    private ImageView semaforo2;
     private int contador = 0;
+    private int contador2 = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         semaforo = findViewById(R.id.semaforo);
+        semaforo2 = findViewById(R.id.semaforo2);
 
         Thread hiloSemaforo = new Thread(new Runnable() {
             @Override
@@ -64,6 +67,49 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         hiloSemaforo.start();
+
+        Thread hiloSemaforo2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        if (contador2 == 0) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    semaforo2.setImageResource(R.drawable.circle_green);
+                                }
+                            });
+                            contador2 = 1;
+                            Thread.sleep(5000);
+                        } else if (contador == 1) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    semaforo2.setImageResource(R.drawable.circle_yellow);
+                                }
+                            });
+                            contador2 = 2;
+                            Thread.sleep(5000);
+                        } else if (contador == 2) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    semaforo2.setImageResource(R.drawable.circle_red);
+                                }
+                            });
+                            contador2 = 0;
+                            Thread.sleep(5000);
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        hiloSemaforo2.start();
+
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
