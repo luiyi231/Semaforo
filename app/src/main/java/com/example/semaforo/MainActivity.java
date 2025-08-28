@@ -1,6 +1,9 @@
 package com.example.semaforo;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
@@ -13,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView rojo1, amarillo1, verde1;//Semaforo 1
     private ImageView rojo2, amarillo2, verde2;//Semaforo 2
+    private Button button; //boton porque me olvide la fase 1
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
         rojo2 = findViewById(R.id.rojo2);
         amarillo2 = findViewById(R.id.amarillo2);
         verde2 = findViewById(R.id.verde2);
+
+        button = findViewById(R.id.button);
 
         Thread hiloSemaforo1 = new Thread(() -> {
             int contador1 = 0;
@@ -135,6 +141,11 @@ public class MainActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        button.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, Fase_1.class);
+            startActivity(intent);
         });
     }
 }
