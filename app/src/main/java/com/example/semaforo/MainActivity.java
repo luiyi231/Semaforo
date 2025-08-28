@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         hiloSemaforo1.start();
 
         Thread hiloSemaforo2 = new Thread(() -> {
-            int contador2 = 2;
+            int contador2 = 0;
             while (true) {
                 try {
                     switch (contador2) {
